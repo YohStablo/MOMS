@@ -3,6 +3,17 @@ from pygame.locals import *
 
 import json
 
+#####   IDEAS   #####
+# Information with sources in each country
+# How tech works with detail of the 
+# Make different maps by topics to be more clear
+# Budget ??
+# Ideology in different country ?
+# Europeen overview ??? Europol ?
+# News by countries ?
+# Think about how to present the data ? Different maps
+# Drop list / panel with details on each countries ?
+
 
 # Renvoie si le point 'point' est dans de polygone ou à l'exterieur
 def point_in_polygon(point, polygon) -> bool:
@@ -94,6 +105,7 @@ def get_polygon():
 		data = json.load(file)
 
 	polygon = []
+	countries = {}
 
 	for country in data:
 		if country["continent"] != 'Europe':
@@ -101,6 +113,7 @@ def get_polygon():
 
 		shape = country["geo_shape"]
 		geom = shape["geometry"]
+		# countries["name"]
 
 		if geom["type"] == "MultiPolygon":
 			for poly in geom["coordinates"]:
