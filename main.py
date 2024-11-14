@@ -19,7 +19,7 @@ from country import get_countries
 
 def update_screen(window, sidebar, countries, window_size, mouse_pos):
 	sidebar.width = window_size[0]*0.2
-	sidebar.height = window_size[1]
+	sidebar.heightœ = window_size[1]
 
 	for country in countries:
 		country.draw_country(window)
