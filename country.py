@@ -13,10 +13,10 @@ class Country:
 		self.disp_country_borders = None
 		self.disp_pos = None
 		self.is_hover = False
-		self.color = (0, 0, 0)
+		self.color = (0, 170, 0)
 		self.hover_color = (200, 200, 200)
-		self.default_color = (50, 50, 50)
-		self.border_color = (255, 255, 255)
+		self.default_color = (0, 170, 0)
+		self.border_color = (0, 0, 0)
 		
 	def scale_country(self, map_size, map_offset):
 		self.disp_pos = transform_point(self.pos, map_size, map_offset)

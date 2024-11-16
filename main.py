@@ -2,7 +2,6 @@ import os
 import pygame
 from pygame.locals import *
 
-import json
 from sidebar import Sidebar
 from country import get_countries
 
@@ -19,7 +18,7 @@ from country import get_countries
 
 def update_screen(window, sidebar, countries, window_size, mouse_pos):
 	sidebar.width = window_size[0]*0.2
-	sidebar.heightœ = window_size[1]
+	sidebar.height = window_size[1]
 
 	for country in countries:
 		country.draw_country(window)
@@ -29,72 +28,111 @@ def update_screen(window, sidebar, countries, window_size, mouse_pos):
 			country.draw_name(window)
 	
 	sidebar.draw(window)
-	sidebar.draw_topics(window)
+	# sidebar.draw_topics(window)
 
 	pygame.display.update()
 
 def main():
-	background = pygame.image.load('background_2.png')
-	background = pygame.transform.scale_by(background, 0.4)
 	pygame.init()
+	pygame.display.set_caption("MOMS")
+	pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_CROSSHAIR)
 	running = True
 
 	info = pygame.display.Info()
-	window_size = (info.current_w-10, info.current_h-50)
+	window_size = (info.current_w, info.current_h)
 	old_window_size = (0, 0)
-	window = pygame.display.set_mode(window_size)
-	pygame.display.set_caption("MOMS")
 
-	pygame.display.set_mode(window_size, RESIZABLE)
+	window = pygame.display.set_mode(window_size, RESIZABLE)
 
 
 	countries = get_countries()
+	cpt = 0
+	old_cpt = 0
+
+	cpt_button = 0
+	old_cpt_button = 0
 
 	bg_color = (6,66,115)
 
 	sidebar = Sidebar(0.2*window_size[0], window_size[1], (0, 0))
+	sidebar.init_buttons()
 
 	while running:
+		mouse_pos = pygame.mouse.get_pos()
 
 		info = pygame.display.Info()
 		window_size = (info.current_w, info.current_h)
 		
 
-		window.fill(bg_color)
 
-		key_pressed_is = pygame.key.get_pressed()
+		cpt_button = 0
+		if sidebar.check_hover_buttons(mouse_pos):
+			cpt_button += 1
+		if cpt_button != old_cpt_button:
+			need_screen_update = True
+
+		
 		# Handle events
-		if key_pressed_is[K_ESCAPE]: 
-			running = False
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				running = False
+			if event.type == KEYDOWN:
+				if event.key == K_ESCAPE:
+					running = False
+			if event.type == pygame.MOUSEBUTTONDOWN: 
+				for button in sidebar.buttons:
+					if button.is_hover:
+						button.is_clicked = True
+						need_screen_update = True
+					else:
+						button.is_clicked = False
+
+
+		
 
 	
 		if window_size != old_window_size:
+			need_new_window = False
+			if window_size[0] < 1000:
+				window_size = (1000, window_size[1])
+				need_new_window = True
+			if window_size[1] < 400:
+				window_size = (window_size[0], 400)
+				need_new_window = True
+			if need_new_window:
+				window = pygame.display.set_mode(window_size, RESIZABLE)
+
 			need_screen_update = True
+
+
 			map_size = (window_size[0]*0.8, window_size[1])
 			map_offset = (window_size[0]*0.2, 0)
+			sidebar.update_size(window_size)
 			for country in countries:
 				country.scale_country(map_size, map_offset)
-				
 		
-		mouse_pos = pygame.mouse.get_pos()
-		for country in countries:
+		
+		cpt = 0
+		for i, country in enumerate(countries):
 			country.point_in_country(mouse_pos)
 			if country.is_hover:
-				need_screen_update = True
+				cpt += i+1
+		if cpt != old_cpt:
+			need_screen_update = True
 
+		old_window_size = window_size
+		old_cpt = cpt
+		old_cpt_button = cpt_button
+
+
+		#####   DISPLAY   ####
 		if need_screen_update:
+			window.fill(bg_color)
 			update_screen(window, sidebar, countries, window_size, mouse_pos)
 			need_screen_update = False
-		old_window_size = window_size
 
-		#####   DISPLAY BACKGROUND   #####
-		# for x in range(0, window_size[0], background.get_width()):
-		# 	for y in range(0, window_size[1], background.get_height()):
-		# 		window.blit(background,(x,y))
-
+		sidebar.ckeck_clicked_buttons()
+		need_screen_update = True
 		
 
 	pygame.quit()

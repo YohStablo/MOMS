@@ -1,3 +1,20 @@
+def point_in_box(p:tuple, p1:tuple, p2:tuple, error_offset:float = 1e-6):
+	"""Check if the point 'p' is in the box defined by p1 and p2
+
+	Args:
+		p (tuple): Point to be checked
+		p1 (tuple): First point
+		p2 (tuple): Second point
+		error_offset (float, optional): Error offset to overcome python binary error on float. Defaults to 1e-6.
+
+	Returns:
+		bool: If the point is in the box
+	"""
+	if p[0] > min(p1[0], p2[0]) - error_offset and p[0] < max(p2[0], p1[0]) + error_offset:
+		if p[1] > min(p1[1], p2[1]) - error_offset and p[1] < max(p2[1], p1[1]) + error_offset:
+			return True
+	return False
+
 
 # Renvoie si le point 'point' est dans de polygone ou à l'exterieur
 def point_in_polygon(point, polygon) -> bool:
