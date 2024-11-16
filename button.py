@@ -18,25 +18,27 @@ class Button:
 
         self.is_hover = False
         self.is_clicked = False
+        self.is_active = True
 
 
     def check_is_hover(self, mouse_pos):
-        p1 = (self.centre_pos[0] - self.width/2, self.centre_pos[1] - self.height/2)
-        p2 = (self.centre_pos[0] + self.width/2, self.centre_pos[1] + self.height/2)
+        if self.is_active:
+            p1 = (self.centre_pos[0] - self.width/2, self.centre_pos[1] - self.height/2)
+            p2 = (self.centre_pos[0] + self.width/2, self.centre_pos[1] + self.height/2)
 
-        if util.point_in_box(mouse_pos, p1, p2):
-            self.is_hover = True
-            return True
-        else:
+            if util.point_in_box(mouse_pos, p1, p2):
+                self.is_hover = True
+                return True
             self.is_hover = False
-            return False
+        return False
         
 
 
     ###   DISPLAY   ###
     def draw(self, window):
-        self.draw_rect(window)
-        self.write_text(window)
+        if self.is_active:
+            self.draw_rect(window)
+            self.write_text(window)
 
     def write_text(self, window):
         text = self.text_font.render(self.text, True, (255, 255, 255))
@@ -44,7 +46,9 @@ class Button:
 
         textRect.center = self.centre_pos
 
-        window.blit(text, textRect)
+        util.render_text_centered_at(self.text, self.text_font, self.text_color, self.centre_pos, window, self.width*0.9)
+
+        # window.blit(text, textRect)
 
     def draw_rect(self, window):
         rect = (self.centre_pos[0] - self.width/2, self.centre_pos[1] - self.height/2, self.width, self.height)
