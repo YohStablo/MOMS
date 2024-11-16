@@ -1,0 +1,10 @@
+#_TOPIC
+'Network and Web Surveillance'
+
+#_TEXT
+Network and web surveillance encompasses monitoring digital activity to combat crime and terrorism, often involving partnerships between governments and internet service providers. This type of surveillance allows law enforcement to track online communications, browsing histories, and social media activities. While intended to bolster national security, this invasive approach has sparked debates on privacy rights and government overreach. In response, the European Court of Human Rights has emphasized the need for legal safeguards to protect individuals from indiscriminate data collection. Advocates argue that surveillance must be transparent, with clear limitations on data access and storage to preserve citizens’ right to online privacy.
+
+
+#_LINKS 2
+https://www.accessnow.org/press-release/ai-act-predictive-policing/
+https://www.mdpi.com/2076-0760/10/6/234

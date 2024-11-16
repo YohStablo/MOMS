@@ -1,0 +1,11 @@
+#_TOPIC
+'Intelligent Video Surveillance'
+
+#_COUNTRY	24
+
+#_TEXT
+The UK has implemented facial recognition in cities like London, where police use real-time monitoring of CCTV networks.
+
+#_LINKS	2
+https://ainowinstitute.org/wp-content/uploads/2023/09/regulatingbiometrics-fussey-murray.pdf
+https://en.wikipedia.org/wiki/Mass_surveillance_in_the_United_Kingdom

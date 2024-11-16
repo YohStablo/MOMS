@@ -1,0 +1,10 @@
+#_TOPIC
+'Predictive Analysis'
+
+#_COUNTRY	40
+
+#_TEXT
+The Dutch “Crime Anticipation System” (CAS) uses data analysis to forecast crime hotspots in urban areas.
+
+#_LINKS	1
+https://ceur-ws.org/Vol-2103/paper_6.pdf

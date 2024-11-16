@@ -1,0 +1,11 @@
+#_TOPIC
+'Network and Web Surveillance'
+
+#_COUNTRY	0
+
+#_TEXT
+France has laws allowing intelligence agencies to monitor network data from major service providers. These broad surveillance laws have faced challenges from privacy advocates, and the European Court of Human Rights has emphasized the need for proportional, targeted surveillance to safeguard privacy rights​.
+
+#_LINKS	2
+https://www.vie-publique.fr/loi/277157-loi-pour-une-securite-globale-preservant-les-libertes
+https://www.amnesty.org/fr/latest/press-release/2021/03/france-new-security-law-risks-dystopian-surveillance-state/

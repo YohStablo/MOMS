@@ -1,0 +1,10 @@
+#_TOPIC
+'Electronic Communication Surveillance'
+
+#_COUNTRY	38
+
+#_TEXT
+In Sweden, the “FRA law” grants intelligence agencies the authority to intercept cross-border internet communications.
+
+#_LINKS	1
+https://edri.org/our-work/the-terrifying-expansion-of-swedens-state-surveillance/

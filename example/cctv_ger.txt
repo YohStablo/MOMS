@@ -1,0 +1,10 @@
+#_TOPIC
+'Intelligent Video Surveillance'
+
+#_COUNTRY	28
+
+#_TEXT
+Berlin has introduced intelligent surveillance with AI-based facial recognition systems for crowd management. Such surveillance has sparked debates on privacy, leading to calls for regulatory restrictions
+
+#_LINKS	1
+https://www.biometricupdate.com/202405/police-in-germany-using-live-facial-recognition

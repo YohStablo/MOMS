@@ -1,0 +1,11 @@
+#_TOPIC
+'Predictive Analysis'
+
+#_COUNTRY	28
+
+#_TEXT
+Germany’s federal police have tried predictive tools like “PRECOBS”, “KrimPro” or “SKALA”, which use past crime patterns to predict future crimes, coupled with demographic data. However, these systems have faced scrutiny for potential bias and privacy infringements.
+
+#_LINKS	2
+https://land-der-ideen.de/en/project/precobs-software-for-predicting-crimes-355
+https://www.kriminologie.de/index.php/krimoj/article/download/67/65/255

@@ -1,0 +1,12 @@
+#_TOPIC
+'Network and Web Surveillance'
+
+#_COUNTRY	24
+
+#_TEXT
+In the UK, the Investigatory Powers Act (IPA) allows security agencies extensive monitoring capabilities over digital communications and web activity. This has permitted authorities to work with ISPs to access user data.
+
+#_LINKS	3
+https://www.gchq.gov.uk/information/investigatory-powers-act
+https://www.independent.co.uk/tech/uk-spying-laws-uk-government-introduces-law-requiring-whatsapp-and-imessage-to-be-broken-a6905106.html
+https://en.wikipedia.org/wiki/Mass_surveillance_in_the_United_Kingdom

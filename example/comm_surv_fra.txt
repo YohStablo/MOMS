@@ -1,0 +1,10 @@
+#_TOPIC
+'Electronic Communication Surveillance'
+
+#_COUNTRY	0
+
+#_TEXT
+France’s recent surveillance reforms allow security agencies extensive access to electronic communications data for national security purposes. 
+
+#_LINKS	1
+https://www.lemonde.fr/en/france/article/2023/07/06/france-set-to-allow-police-to-spy-through-phones_6044269_7.html#
