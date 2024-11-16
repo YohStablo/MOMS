@@ -2,7 +2,7 @@ import pygame
 import util
 
 class Button:
-    def __init__(self, centre_pos, width, height, colors, text, text_font):
+    def __init__(self, centre_pos, width, height, colors, text, text_font, is_active = True):
         self.centre_pos = centre_pos
         self.width = width
         self.height = height
@@ -18,7 +18,8 @@ class Button:
 
         self.is_hover = False
         self.is_clicked = False
-        self.is_active = True
+        self.is_active = is_active
+        self.change_state = False
 
 
     def check_is_hover(self, mouse_pos):
@@ -27,11 +28,16 @@ class Button:
             p2 = (self.centre_pos[0] + self.width/2, self.centre_pos[1] + self.height/2)
 
             if util.point_in_box(mouse_pos, p1, p2):
+                if not self.is_hover:
+                    self.change_state = True
+
                 self.is_hover = True
-                return True
-            self.is_hover = False
-        return False
-        
+                return
+
+            if self.is_hover:
+                self.change_state = True
+
+            self.is_hover = False       
 
 
     ###   DISPLAY   ###
@@ -41,12 +47,7 @@ class Button:
             self.write_text(window)
 
     def write_text(self, window):
-        text = self.text_font.render(self.text, True, (255, 255, 255))
-        textRect = text.get_rect()
-
-        textRect.center = self.centre_pos
-
-        util.render_text_centered_at(self.text, self.text_font, self.text_color, self.centre_pos, window, self.width*0.9)
+        util.render_text_centered(self.text, self.text_font, self.text_color, self.centre_pos, window, self.width*0.9)
 
         # window.blit(text, textRect)
 
