@@ -38,6 +38,7 @@ def main():
 	pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_CROSSHAIR)
 	running = True
 
+
 	info = pygame.display.Info()
 	window_size = (info.current_w, info.current_h)
 	old_window_size = (0, 0)
@@ -64,13 +65,8 @@ def main():
 		window_size = (info.current_w, info.current_h)
 		
 
-
-		cpt_button = 0
-		if sidebar.check_hover_buttons(mouse_pos):
-			cpt_button += 1
-		if cpt_button != old_cpt_button:
-			need_screen_update = True
-
+		sidebar.check_hover_buttons(mouse_pos)
+		
 		
 		# Handle events
 		for event in pygame.event.get():
@@ -86,6 +82,14 @@ def main():
 						need_screen_update = True
 					else:
 						button.is_clicked = False
+				if sidebar.return_button.is_hover:
+					sidebar.return_button.is_clicked = True
+					need_screen_update = True
+				else:
+					sidebar.return_button.is_clicked = False
+
+
+
 
 
 		
@@ -124,6 +128,9 @@ def main():
 		old_cpt = cpt
 		old_cpt_button = cpt_button
 
+		if sidebar.change_state:
+			need_screen_update = True
+			sidebar.change_state = False
 
 		#####   DISPLAY   ####
 		if need_screen_update:
@@ -131,8 +138,8 @@ def main():
 			update_screen(window, sidebar, countries, window_size, mouse_pos)
 			need_screen_update = False
 
-		sidebar.ckeck_clicked_buttons()
-		need_screen_update = True
+		if sidebar.ckeck_clicked_buttons():
+			need_screen_update = True
 		
 
 	pygame.quit()

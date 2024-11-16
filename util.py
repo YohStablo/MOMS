@@ -49,7 +49,7 @@ def transform_point(pos, map_size, map_offset):
 
 
 
-def render_text_centered_at(text, font, colour, centre_pos, screen, allowed_width):
+def render_text_centered(text, font, colour, centre_pos, screen, allowed_width):
 	# https://stackoverflow.com/questions/49432109/how-to-wrap-text-in-pygame-using-pygame-font-font
     # first, split the text into words
 
@@ -88,3 +88,45 @@ def render_text_centered_at(text, font, colour, centre_pos, screen, allowed_widt
         screen.blit(font_surface, (tx, ty))
 
         y_offset += fh
+
+
+
+def render_text_left(text, font, colour, left_pos, screen, allowed_width):
+	# https://stackoverflow.com/questions/49432109/how-to-wrap-text-in-pygame-using-pygame-font-font
+    # first, split the text into words
+
+    x, y = left_pos
+    words = text.split()
+
+    # now, construct lines out of these words
+    lines = []
+    while len(words) > 0:
+        # get as many words as will fit within allowed_width
+        line_words = []
+        while len(words) > 0:
+            line_words.append(words.pop(0))
+            fw, fh = font.size(' '.join(line_words + words[:1]))
+            if fw > allowed_width:
+                break
+
+        # add a line consisting of those words
+        line = ' '.join(line_words)
+        lines.append(line)
+
+    # now we've split our text into lines that fit into the width, actually
+    # render them
+
+    # we'll render each line below the last, so we need to keep track of
+    # the culmative height of the lines we've rendered so far
+    y_offset = 0
+    for line in lines:
+        fw, fh = font.size(line)
+
+        # (tx, ty) is the top-left of the font surface
+        tx = x
+        ty = y + y_offset
+
+        font_surface = font.render(line, True, colour)
+        screen.blit(font_surface, (tx, ty))
+
+        y_offset += fh*1.1
