@@ -17,6 +17,8 @@ class Country:
 		self.hover_color = (200, 200, 200)
 		self.default_color = (0, 170, 0)
 		self.border_color = (0, 0, 0)
+
+		self.change_state = False
 		
 	def scale_country(self, map_size, map_offset):
 		self.disp_pos = transform_point(self.pos, map_size, map_offset)
@@ -50,12 +52,18 @@ class Country:
 	def point_in_country(self, pos):
 		self.color = self.default_color
 		self.disp_name = False
+		old_is_hover = self.is_hover
+
 		for border in self.disp_country_borders:
 			self.is_hover = point_in_polygon(pos, border)
-			if self.is_hover:
+			if self.is_hover:				
 				self.color = self.hover_color
 				self.disp_name = True
 				break
+		
+		if self.is_hover != old_is_hover:
+			self.change_state = True
+				
 
 
 

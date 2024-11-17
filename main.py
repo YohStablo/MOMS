@@ -1,9 +1,11 @@
 import os
 import pygame
+import webbrowser
 from pygame.locals import *
 
 from sidebar import Sidebar
 from country import get_countries
+
 
 #####   IDEAS   #####
 # Information with sources in each country
@@ -47,16 +49,11 @@ def main():
 
 
 	countries = get_countries()
-	cpt = 0
-	old_cpt = 0
-
-	cpt_button = 0
-	old_cpt_button = 0
 
 	bg_color = (6,66,115)
 
 	sidebar = Sidebar(0.2*window_size[0], window_size[1], (0, 0))
-	sidebar.init_buttons()
+	sidebar.init_objects()
 
 	while running:
 		mouse_pos = pygame.mouse.get_pos()
@@ -65,7 +62,7 @@ def main():
 		window_size = (info.current_w, info.current_h)
 		
 
-		sidebar.check_hover_buttons(mouse_pos)
+		sidebar.check_hover_clickables(mouse_pos)
 		
 		
 		# Handle events
@@ -75,26 +72,10 @@ def main():
 			if event.type == KEYDOWN:
 				if event.key == K_ESCAPE:
 					running = False
-			if event.type == pygame.MOUSEBUTTONDOWN: 
-				for button in sidebar.buttons:
-					if button.is_hover:
-						button.is_clicked = True
-						need_screen_update = True
-					else:
-						button.is_clicked = False
-				if sidebar.return_button.is_hover:
-					sidebar.return_button.is_clicked = True
-					need_screen_update = True
-				else:
-					sidebar.return_button.is_clicked = False
+			if event.type == pygame.MOUSEBUTTONDOWN:
+				sidebar.check_clicked_clickables()
+				
 
-
-
-
-
-		
-
-	
 		if window_size != old_window_size:
 			need_new_window = False
 			if window_size[0] < 1000:
@@ -114,19 +95,15 @@ def main():
 			sidebar.update_size(window_size)
 			for country in countries:
 				country.scale_country(map_size, map_offset)
+		old_window_size = window_size
 		
 		
-		cpt = 0
 		for i, country in enumerate(countries):
 			country.point_in_country(mouse_pos)
-			if country.is_hover:
-				cpt += i+1
-		if cpt != old_cpt:
-			need_screen_update = True
+			if country.change_state:
+				country.change_state = False
+				need_screen_update = True
 
-		old_window_size = window_size
-		old_cpt = cpt
-		old_cpt_button = cpt_button
 
 		if sidebar.change_state:
 			need_screen_update = True
@@ -138,8 +115,7 @@ def main():
 			update_screen(window, sidebar, countries, window_size, mouse_pos)
 			need_screen_update = False
 
-		if sidebar.ckeck_clicked_buttons():
-			need_screen_update = True
+		sidebar.reset_clickables()
 		
 
 	pygame.quit()

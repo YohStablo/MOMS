@@ -1,3 +1,5 @@
+import pygame
+
 def point_in_box(p:tuple, p1:tuple, p2:tuple, error_offset:float = 1e-6):
 	"""Check if the point 'p' is in the box defined by p1 and p2
 
@@ -127,6 +129,9 @@ def render_text_left(text, font, colour, left_pos, screen, allowed_width):
         ty = y + y_offset
 
         font_surface = font.render(line, True, colour)
+        # font_surface = pygame.transform.smoothscale(font_surface, (width_ratio, 300))
         screen.blit(font_surface, (tx, ty))
 
         y_offset += fh*1.1
+	
+    

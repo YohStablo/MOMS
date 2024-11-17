@@ -1,6 +1,7 @@
 import pygame
 from button import Button
 from text_box import Text_box
+from link import LinkURL
 
 class Sidebar:
     def __init__(self, width, height, pos):
@@ -10,6 +11,7 @@ class Sidebar:
         self.color = (0, 0, 0)
 
         self.change_state = False
+        self.window_size = (width * 5, height)
 
         self.topics = {
             "Predictive analysis": "Predictive analysis in policing involves using historical crime data and AI algorithms to identify likely locations or individuals for future criminal activity. By analyzing patterns in past incidents, predictive tools help law enforcement to optimize resource allocation and pre-empt crime. This data-driven approach aims to enhance public safety but raises concerns about biases within the datasets used, as these may lead to disproportionate scrutiny of certain communities. The European Union has responded with stricter AI regulations, aiming to balance security interests and privacy concerns by limiting personal data use and ensuring that predictive technologies are employed responsibly. Civil rights groups caution that predictive policing can reinforce existing biases, potentially eroding trust between law enforcement and communities.",
@@ -18,105 +20,187 @@ class Sidebar:
             "Electronic communications surveillance" : "Electronic communications surveillance involves intercepting and monitoring online and phone communications to track potential security threats. Often conducted by intelligence agencies, this form of surveillance can include real-time interception, metadata analysis, and monitoring encrypted communications. While effective in identifying criminal networks and terrorist activities, mass data collection raises serious privacy issues. Oversight bodies and human rights organizations have raised concerns about the balance of security and privacy, stressing the need for transparent and regulated surveillance practices. As European legal frameworks evolve, they increasingly demand that surveillance be proportionate, targeted, and subject to judicial oversight to prevent misuse and protect individual freedoms.",
             "Pegasus" : ""}
         
-        self.buttons = [None]*5
-        self.return_button = None
+        link_color = (100, 100, 255)
+        self.links = {
+            "Predictive analysis": [
+                LinkURL((0, 0), r"https://artificialintelligenceact.eu/ai-act-explorer/", "Source 1", link_color),
+                LinkURL((0, 0), r"https://www.amnesty.eu/news/eu-ai-act-at-risk-as-european-parliament-may-legitimize-abusive-technologies/", "Source 2", link_color),
+                LinkURL((0, 0), r"https://datajusticeproject.net/wp-content/uploads/2019/05/Report-Data-Driven-Policing-EU.pdf", "Source 3", link_color),
+                LinkURL((0, 0), r"https://www.accessnow.org/press-release/ai-act-predictive-policing/", "Source 4", link_color),
+                LinkURL((0, 0), r"https://www.mdpi.com/2076-0760/10/6/234", "Source 5", link_color),
+            ],
+            "Network and net surveillance" : [
+                LinkURL((0, 0), r"https://www.accessnow.org/press-release/ai-act-predictive-policing/", "Source 1", link_color),
+                LinkURL((0, 0), r"https://www.mdpi.com/2076-0760/10/6/234", "Source 2", link_color),
+            ],
+            "Intelligent video surveillance" : [],
+            "Electronic communications surveillance" : [],
+            "Pegasus" : []}
+        
+        self.keys = ["Predictive analysis", "Network and net surveillance", "Intelligent video surveillance", "Electronic communications surveillance", "Pegasus"]
+
+        self.n_buttons = 5
+        self.buttons = [None]*self.n_buttons
+        self.back_button = None
+        self.init_objects()
+
+
+
+    def init_objects(self):
+
         self.active_button_id = -1
 
-        top_left_pos = (self.width * 0.05, self.height * 0.15)
-        text_box_colors = ((10, 20, 40), (255, 255, 255))
-        font = pygame.font.SysFont('freesans', int(20 * self.height/1080))
-        self.text_box = Text_box(top_left_pos, self.width * 0.9, self.height * 0.65, text_box_colors, "", font)
-
-
-    def init_buttons(self):
+        # Back button
         button_colors = ((10, 20, 40), (80, 80, 80), (100, 100, 100), (255, 255, 255))
-        font = pygame.font.Font('freesansbold.ttf', 14)
-
-
+        button_font = pygame.font.Font('freesansbold.ttf', 14)
         center_pos = (0.8 * self.width, 0.9* self.height)
         width = 0.2*self.width
         height = 30
-        self.return_button = Button(center_pos, width, height, button_colors, "Back", font, False)
+        self.back_button = Button(-1, center_pos, width, height, button_colors, "Back", button_font, False)
 
-        for i, key in enumerate(self.topics.keys()):
-            button_pos = (self.width // 2, self.height * ((i+1) / 6))
-            self.buttons[i] = Button(button_pos, self.width*0.9, 50, button_colors, key, font)
+        # Text box
+        top_left_pos = (self.width * 0.05, self.height * 0.15)
+        text_box_colors = ((10, 20, 40), (255, 255, 255))
+        text_box_font = pygame.font.SysFont('freesans', int(20 * self.height/1080))
+        self.text_box = Text_box(top_left_pos, self.width * 0.9, self.height * 0.65, text_box_colors, "", text_box_font)
+
+
+        # Buttons and links
+        for i, key in enumerate(self.keys):
+            # Buttons
+            button_pos = (self.width // 2, self.height * ((i+1) / (self.n_buttons + 1)))
+            self.buttons[i] = Button(i, button_pos, self.width*0.9, 50, button_colors, key, button_font)
+
+            # Links
+            for i, link in enumerate(self.links[key]):
+                link.is_active = False
+                if i < 3:
+                    link.top_left_pos = ((0.1 + 0.3*i)*self.width, 0.8 * self.height)
+                elif i < 6:
+                    link.top_left_pos = ((0.1 + 0.3*(i-3))*self.width, 0.85 * self.height)
+
+
+
         
 
     def update_size(self, window_size):
 
         self.width = 0.2 * window_size[0]
         self.height = window_size[1]
-        print(self.height)
+        self.window_size = window_size
 
-
-        if self.text_box.is_active:
-            top_left_pos = (self.width * 0.05, self.height * 0.1 + 40)
-            self.text_box.text_font = pygame.font.SysFont('freesans', int(20 * self.height/945))
-            self.text_box.top_left_pos = top_left_pos
+        if self.active_button_id != -1:
+            # Text box size update
+            self.text_box.text_font = pygame.font.SysFont('freesans', min(int(20 * self.height/945), int(20 * self.width/384)))
+            self.text_box.top_left_pos = (self.width * 0.05, self.height * 0.1 + 40)
             self.text_box.width = self.width * 0.9
-            self.text_box.height = self.height - 0.3 * self.height - 15
+            self.text_box.height = self.height - 0.2 * self.height - 15
 
+            # Active button size update
             self.buttons[self.active_button_id].width = self.width*0.9
             self.buttons[self.active_button_id].centre_pos = (self.width // 2, self.height * 0.1)
-            center_pos = (0.8 * self.width, 0.9* self.height)
-            width = 0.2*self.width
-            self.return_button.centre_pos = center_pos
-            self.return_button.width = width
+
+            # Back button size update
+            self.back_button.centre_pos = (0.8 * self.width, 0.9* self.height)
+            self.back_button.width = 0.2*self.width
+
+            # Links size update
+            for i, link in enumerate(self.links[self.keys[self.active_button_id]]):
+                if i < 3:
+                    link.top_left_pos = ((0.1 + 0.3*i)*self.width, 0.8 * self.height)
+                elif i < 6:
+                    link.top_left_pos = ((0.1 + 0.3*(i-3))*self.width, 0.85 * self.height)
+
         else:
             for i, button in enumerate(self.buttons):
                 button.width = self.width*0.9
-                button.centre_pos = (self.width // 2, self.height * ((i+1) / 6))
+                button.centre_pos = (self.width // 2, self.height * ((i+1) / (self.n_buttons + 1)))
         
 
 
 
 
 
-    def check_hover_buttons(self, mouse_pos): 
-        self.return_button.check_is_hover(mouse_pos)
-        if self.return_button.change_state:
-            self.change_state = True
-            self.return_button.change_state = False
-
+    def check_hover_clickables(self, mouse_pos): 
+        # Topic button
         for button in self.buttons:
             button.check_is_hover(mouse_pos)
             if button.change_state:
                 self.change_state = True 
                 button.change_state = False
 
+        # Back button
+        self.back_button.check_is_hover(mouse_pos)
+        if self.back_button.change_state:
+            self.change_state = True
+            self.back_button.change_state = False
+
+        # Links
+        for key in self.keys:
+            for link in self.links[key]:
+                link.check_is_hover(mouse_pos)
+                if link.change_state:
+                    self.change_state = True
+                    link.change_state = False
+
     
-    def ckeck_clicked_buttons(self):
-        for i, button in enumerate(self.buttons):
+    def check_clicked_clickables(self):
+        # Topic button
+        for button in self.buttons:
+            button.check_clicked()
+            if button.change_state:
+                button.change_state = False
+                self.change_state = True
             if button.is_clicked:
-                self.button_id_clicked(i)
-                self.active_button_id = i
+                self.active_button_id = button.id
+                self.button_id_clicked()
+
+
+        # Return button
+        self.back_button.check_clicked()
+        if self.back_button.change_state:
+            self.back_button.change_state = False
+            self.change_state = True
+        if self.back_button.is_clicked:
+            self.text_box.is_active = False
+            self.init_objects()
+
+
+
+        # Links
+        for key in self.keys:
+            for link in self.links[key]:
+                link.check_clicked()
+                if link.change_state:
+                    self.change_state = True
+                    link.change_state = False
+
+
+    def reset_clickables(self):
+        for button in self.buttons:
+            if button.is_clicked:
                 button.is_clicked = False
                 self.change_state = True
 
-        if self.return_button.is_clicked:
-            self.text_box.is_active = False
-            self.return_button.is_active = False
+        if self.back_button.is_clicked:
+            self.back_button.is_active = False
             self.change_state = True
-            self.init_buttons()
+        
 
-    def button_id_clicked(self, button_id):
+    def button_id_clicked(self):
         for i, key in enumerate(self.topics.keys()):
-            if i == button_id:
-                self.buttons[i].centre_pos = (self.width // 2, self.height * 0.1)
+            if i == self.active_button_id:
+
                 self.text_box.is_active = True
-                top_left_pos = (self.width * 0.05, self.height * 0.1 + 40)
-                self.text_box.text_font = pygame.font.SysFont('freesans', int(20 * self.height/945))
-                self.text_box.top_left_pos = top_left_pos
-                self.text_box.width = self.width * 0.9
-                self.text_box.height = self.height  - 0.3 * self.height - 15
                 self.text_box.text = self.topics[key]
 
-                self.return_button.is_active = True
-                center_pos = (0.8 * self.width, 0.9* self.height)
-                width = 0.2*self.width
-                self.return_button.centre_pos = center_pos
-                self.return_button.width = width
+                self.back_button.is_active = True
+
+                for i, link in enumerate(self.links[key]):
+                    link.is_active = True
+
+                # Put objects to right place
+                self.update_size(self.window_size)
 
                 continue
             self.buttons[i].is_active = False
@@ -133,7 +217,12 @@ class Sidebar:
         # self.draw_topics(window)
         self.draw_buttons(window)
         self.text_box.draw(window)
-        self.return_button.draw(window)
+        self.back_button.draw(window)
+
+        for key in self.links.keys():
+            for link in self.links[key]:
+                link.draw(window)
+
 
     def draw_topics(self, window):
         font = pygame.font.Font('freesansbold.ttf', 16)

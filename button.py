@@ -2,7 +2,8 @@ import pygame
 import util
 
 class Button:
-    def __init__(self, centre_pos, width, height, colors, text, text_font, is_active = True):
+    def __init__(self, id, centre_pos, width, height, colors, text, text_font, is_active = True):
+        self.id = id
         self.centre_pos = centre_pos
         self.width = width
         self.height = height
@@ -37,7 +38,21 @@ class Button:
             if self.is_hover:
                 self.change_state = True
 
-            self.is_hover = False       
+            self.is_hover = False
+
+    def check_clicked(self):
+        if not self.is_active:
+            return 
+        
+        if self.is_hover:
+            if not self.is_clicked:
+                self.change_state = True
+            self.is_clicked = True
+        else:
+            if self.is_clicked:
+                self.change_state = True
+            self.is_clicked = False
+
 
 
     ###   DISPLAY   ###
