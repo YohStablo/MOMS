@@ -1,0 +1,25 @@
+0, "France", 8.07
+3, "Austria", 8.28
+9, "Belgium", 7.64
+23, "Bulgaria", 6.41
+32, "Croatia", 6.5
+8, "Denmark", 9.28
+35, "Spain", 8.07
+6, "Estonia", 7.96
+13, "Finland", 9.3
+25, "Greece", 8.14
+34, "Hungary", 6.72
+17, "Ireland", 9.19
+18, "Italy", 7.69
+20, "Latvia", 7.38
+14, "Lithuania", 7.31
+5, "Luxembourg", 8.81
+12, "Malta", 7.93
+40, "The Netherlands", 9
+22, "Poland", 7.18
+4, "Portugal", 7.75
+39, "Czech Republic", 7.97
+10, "Romania", 6.45
+41, "Slovakia", 7.05
+16, "Slovenia", 7.75
+38, "Sweden", 9.39
