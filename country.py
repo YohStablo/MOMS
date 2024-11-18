@@ -1,5 +1,6 @@
 import pygame
 import json
+from os import listdir
 from util import point_in_polygon, transform_point
 
 class Country:
@@ -17,6 +18,13 @@ class Country:
 		self.hover_color = (200, 200, 200)
 		self.default_color = (0, 170, 0)
 		self.border_color = (0, 0, 0)
+		self.example_color = (255, 105, 97)
+		self.states = {
+			'1': None,
+			'2': None,
+			'3': None,
+			'4': None
+			}
 
 		self.democracy_score = "Not in EU"
 
@@ -30,9 +38,10 @@ class Country:
 			for p in border:
 				transformed_point = transform_point(p, map_size, map_offset)
 				self.disp_country_borders[i].append(transformed_point)
+				
+	
 
-
-	def draw_country(self, window):
+	def draw_country(self, window, state=0):
 		for border in self.disp_country_borders:
 			pygame.draw.polygon(window, self.color, border)
 	
@@ -118,3 +127,18 @@ def set_democracy_score(countries):
 			l = line.strip().split(',')
 			print(l[0])
 			countries[int(l[0])].democracy_score = "DS : " + l[2] + "/10"
+def update_state(directory:str, countries:list):
+	for filename in listdir(directory):
+		path = directory + filename
+		with open(path, 'r') as f:
+			topic_id = 0
+			country_id = None			
+			for line in f:
+				l = line.strip().split('\t')
+				match l[0]:
+					case '#_TOPIC':
+						topic_id = l[1]
+					case '#_COUNTRY':
+						country_id = int(l[1])
+			
+			countries[country_id].states[topic_id] = path
