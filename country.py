@@ -159,7 +159,9 @@ def set_democracy_score(countries):
 			l = line.strip().split(',')
 			print(l[0])
 			countries[int(l[0])].democracy_score = "DS : " + l[2] + "/10"
-def update_state(directory:str, countries:list):
+
+
+def init_states(directory:str, countries:list):
 	for filename in listdir(directory):
 		path = directory + filename
 		with open(path, 'r') as f:
