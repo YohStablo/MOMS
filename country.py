@@ -78,7 +78,10 @@ class Country:
 		if self.is_hover != old_is_hover:
 			self.change_state = True
 
-	def set_card(self, topic:int):
+	def set_card(self, pp_card, topic:int):
+		if topic < 1 or topic > 4:
+			return
+		
 		KT = str(topic)		# converting topic id to key for self.states dictionnary
 		if self.states[KT] is None:
 			return
@@ -105,6 +108,12 @@ class Country:
 				elif (n_links != 0):
 					links.append(line)
 					n_links -= 1
+
+		pp_card.country_name = self.name
+		pp_card.democracy_score = self.democracy_score
+		pp_card.top_left_pos = (self.pos[0] + 100, self.pos[1] - 100)
+		pp_card.init_description_and_links(text, links)
+		pp_card.is_active = True
 			
 
 
@@ -160,7 +169,7 @@ def set_democracy_score(countries):
 			countries[int(l[0])].democracy_score = "DS : " + l[2] + "/10"
 			countries[int(l[0])].default_color = (255 - 25.5*float(l[2]), int(25.5*float(l[2])), 0)
 
-def init_states(directory:str, countries:list):
+def init_states(countries:list, directory:str = "example/"):
 	for filename in listdir(directory):
 		path = directory + filename
 		with open(path, 'r') as f:

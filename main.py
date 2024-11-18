@@ -4,7 +4,7 @@ import webbrowser
 from pygame.locals import *
 
 from sidebar import Sidebar
-from country import get_countries, set_democracy_score
+from country import get_countries, set_democracy_score, init_states
 from pop_card import Pop_card
 
 
@@ -32,7 +32,6 @@ def update_screen(window, sidebar, pp_card, countries, window_size, mouse_pos):
 
 	pp_card.draw(window)
 	sidebar.draw(window)
-	print('coucou')
 	# sidebar.draw_topics(window)
 
 	pygame.display.update()
@@ -55,13 +54,14 @@ def main():
 
 	countries = get_countries()
 	set_democracy_score(countries)
+	init_states(countries)
 
 
 	bg_color = (6,66,115)
 
 	sidebar = Sidebar(0.2*window_size[0], window_size[1], (0, 0))
 	sidebar.init_objects()
-	
+
 	pp_card = Pop_card((500, 100), window_size, 'France', "1.5")
 
 	while running:
@@ -113,9 +113,12 @@ def main():
 		
 		for i, country in enumerate(countries):
 			country.point_in_country(mouse_pos)
+			country.set_card(pp_card, sidebar.active_button_id + 1)
 			if country.change_state:
 				country.change_state = False
 				need_screen_update = True
+
+		print(pp_card.change_state)
 
 
 		if sidebar.change_state or pp_card.change_state:

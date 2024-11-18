@@ -26,10 +26,11 @@ class Pop_card:
 	def init_description_and_links(self, descrition:str, links:list):
 		text_font = pygame.font.SysFont('freesans', min(int(20 * self.height/945), int(20 * self.width/384)))
 		self.text_box = Text_box((self.top_left_pos[0] + self.width * 0.05, self.top_left_pos[1] + self.height * 0.3), self.width * 0.9, self.height * 0.6, ((100, 100, 100), (255, 255, 255)), descrition, text_font)
+		self.text_box.is_active = True
 
 		for i, link in enumerate(links):
 			link = LinkURL((0, 0), link, f"Link {i}", (20, 0, 100))
-			link.is_active = False
+			link.is_active = True
 			if i < 3:
 				link.top_left_pos = (self.top_left_pos[0] + (0.1 + 0.4*i)*self.width, self.top_left_pos[1] + 0.8 * self.height)
 			elif i < 6:
@@ -40,29 +41,30 @@ class Pop_card:
 		for link in self.links:
 			link.check_is_hover(mouse_pos)
 			if link.change_state:
+				link.change_state = False
 				self.change_state = True
 				
 	def check_clicked_links(self):
 		for link in self.links:
 			link.check_clicked()
-			self.change_state = True
+			if link.change_state:
+				link.change_state = False
+				self.change_state = True
 				
 	
 	def draw(self, window):
 		if not self.is_active:
 			return
-		
+
 		self.width = self.window_size[0] * 0.2
 		self.height = self.window_size[1] * 0.5
 
 		# self.draw_backgroung(window)
 		self.draw_country_ds(window)
-		self.text_box.is_active = True
 		self.text_box.draw(window)
 
 		if len(self.links) > 0:
 			for link in self.links:
-				link.is_active = True
 				link.draw(window)
 
 

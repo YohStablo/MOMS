@@ -16,7 +16,7 @@ class LinkURL:
 
         self.is_hover = False
         self.was_clicked = False
-        self.change_state = True
+        self.change_state = False
 
         self.is_active = False
     
