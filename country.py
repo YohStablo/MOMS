@@ -18,6 +18,8 @@ class Country:
 		self.default_color = (0, 170, 0)
 		self.border_color = (0, 0, 0)
 
+		self.democracy_score = "Not in EU"
+
 		self.change_state = False
 		
 	def scale_country(self, map_size, map_offset):
@@ -28,8 +30,7 @@ class Country:
 			for p in border:
 				transformed_point = transform_point(p, map_size, map_offset)
 				self.disp_country_borders[i].append(transformed_point)
-				
-	
+
 
 	def draw_country(self, window):
 		for border in self.disp_country_borders:
@@ -42,12 +43,16 @@ class Country:
 	
 	def draw_name(self, window):
 		font = pygame.font.Font('freesansbold.ttf', 14)
-		text = font.render(self.name, True, (200, 100, 100))
+		text = font.render(f"{self.name}", True, (200, 100, 100))
+		text2 = font.render(f"{self.democracy_score}", True, (200, 100, 100))
 		
 		textRect = text.get_rect()
 		textRect.center = self.disp_pos
+		textRect2 = text2.get_rect()
+		textRect2.center = (self.disp_pos[0], self.disp_pos[1] + 15)
 		
 		window.blit(text, textRect)
+		window.blit(text2, textRect2)
 	
 	def point_in_country(self, pos):
 		self.color = self.default_color
@@ -105,3 +110,11 @@ def get_countries():
 
 		country_id += 1
 	return countries
+
+
+def set_democracy_score(countries):
+	with open("democracy_score.txt", "r") as f:
+		for line in f:
+			l = line.strip().split(',')
+			print(l[0])
+			countries[int(l[0])].democracy_score = "DS : " + l[2] + "/10"

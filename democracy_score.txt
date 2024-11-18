@@ -23,3 +23,4 @@
 41, "Slovakia", 7.05
 16, "Slovenia", 7.75
 38, "Sweden", 9.39
+28, "Germany", 8.8
