@@ -37,8 +37,6 @@ class Country:
 				transformed_point = transform_point(p, map_size, map_offset)
 				self.disp_country_borders[i].append(transformed_point)
 				
-	
-
 	def draw_country(self, window, state=0):
 		for border in self.disp_country_borders:
 			pygame.draw.polygon(window, self.color, border)
@@ -71,6 +69,38 @@ class Country:
 		
 		if self.is_hover != old_is_hover:
 			self.change_state = True
+
+	def set_card(self, topic:int):
+		KT = str(topic)		# converting topic id to key for self.states dictionnary
+		if self.states[KT] is None:
+			return
+
+		path = self.states[KT]
+		get_text = False
+		n_links = 0
+		links = []
+		with open(path, 'r') as f:
+			for line in f:
+
+				if line[0] == '#':
+					l = line.strip().split('\t')
+					match l[0]:
+						case '#_TEXT':
+							get_text = True
+						case '#_LINKS':
+							n_links = int(l[1])
+
+				elif get_text:
+					text = line
+					get_text = False
+
+				elif (n_links != 0):
+					links.append(line)
+					n_links -= 1
+			
+
+
+	
 				
 
 
@@ -115,7 +145,7 @@ def get_countries():
 	return countries
 
 
-def update_state(directory:str, countries:list):
+def init_states(directory:str, countries:list):
 	for filename in listdir(directory):
 		path = directory + filename
 		with open(path, 'r') as f:
