@@ -158,11 +158,7 @@ def set_democracy_score(countries):
 		for line in f:
 			l = line.strip().split(',')
 			countries[int(l[0])].democracy_score = "DS : " + l[2] + "/10"
-<<<<<<< HEAD
 			countries[int(l[0])].default_color = (255 - 25.5*float(l[2]), int(25.5*float(l[2])), 0)
-=======
-
->>>>>>> 8f8cf0e7942549f2b7bb1527173653f727ce9d79
 
 def init_states(directory:str, countries:list):
 	for filename in listdir(directory):
