@@ -4,7 +4,7 @@ import webbrowser
 from pygame.locals import *
 
 from sidebar import Sidebar
-from country import get_countries
+from country import get_countries, set_democracy_score
 
 
 #####   IDEAS   #####
@@ -49,6 +49,7 @@ def main():
 
 
 	countries = get_countries()
+	set_democracy_score(countries)
 
 	bg_color = (6,66,115)
 
