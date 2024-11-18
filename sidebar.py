@@ -23,15 +23,15 @@ class Sidebar:
         link_color = (100, 100, 255)
         self.links = {
             "Predictive analysis": [
-                LinkURL((0, 0), r"https://artificialintelligenceact.eu/ai-act-explorer/", "Source 1", link_color),
-                LinkURL((0, 0), r"https://www.amnesty.eu/news/eu-ai-act-at-risk-as-european-parliament-may-legitimize-abusive-technologies/", "Source 2", link_color),
-                LinkURL((0, 0), r"https://datajusticeproject.net/wp-content/uploads/2019/05/Report-Data-Driven-Policing-EU.pdf", "Source 3", link_color),
-                LinkURL((0, 0), r"https://www.accessnow.org/press-release/ai-act-predictive-policing/", "Source 4", link_color),
-                LinkURL((0, 0), r"https://www.mdpi.com/2076-0760/10/6/234", "Source 5", link_color),
+                LinkURL((0, 0), r"https://artificialintelligenceact.eu/ai-act-explorer/", "Link 1", link_color),
+                LinkURL((0, 0), r"https://www.amnesty.eu/news/eu-ai-act-at-risk-as-european-parliament-may-legitimize-abusive-technologies/", "Link 2", link_color),
+                LinkURL((0, 0), r"https://datajusticeproject.net/wp-content/uploads/2019/05/Report-Data-Driven-Policing-EU.pdf", "Link 3", link_color),
+                LinkURL((0, 0), r"https://www.accessnow.org/press-release/ai-act-predictive-policing/", "Link 4", link_color),
+                LinkURL((0, 0), r"https://www.mdpi.com/2076-0760/10/6/234", "Link 5", link_color),
             ],
             "Network and net surveillance" : [
-                LinkURL((0, 0), r"https://www.accessnow.org/press-release/ai-act-predictive-policing/", "Source 1", link_color),
-                LinkURL((0, 0), r"https://www.mdpi.com/2076-0760/10/6/234", "Source 2", link_color),
+                LinkURL((0, 0), r"https://www.accessnow.org/press-release/ai-act-predictive-policing/", "Link 1", link_color),
+                LinkURL((0, 0), r"https://www.mdpi.com/2076-0760/10/6/234", "Link 2", link_color),
             ],
             "Intelligent video surveillance" : [],
             "Electronic communications surveillance" : [],

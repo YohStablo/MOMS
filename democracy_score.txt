@@ -15,7 +15,7 @@
 14, "Lithuania", 7.31
 5, "Luxembourg", 8.81
 12, "Malta", 7.93
-40, "The Netherlands", 9
+40, "Netherlands", 9
 22, "Poland", 7.18
 4, "Portugal", 7.75
 39, "Czech Republic", 7.97
@@ -24,3 +24,16 @@
 16, "Slovenia", 7.75
 38, "Sweden", 9.39
 28, "Germany", 8.8
+1, "Serbia", 6.33
+2, "Switzerland", 9.14
+7, "Norway", 9.81
+11, "Belarus", 1.99
+24, "United Kingdom", 8.28
+27, "Ukraine", 5.07
+29, "Iceland", 9.45
+30, "Moldova", 6.23
+31, "Montenegro", 6.67
+33, "Bosnia and Herzegovina", 5.00
+37, "North Macedonia", 6.03
+42, "Albania", 6.28
+15, "Russia", 2.22

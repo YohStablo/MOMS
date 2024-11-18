@@ -5,6 +5,7 @@ from pygame.locals import *
 
 from sidebar import Sidebar
 from country import get_countries, set_democracy_score
+from pop_card import Pop_card
 
 
 #####   IDEAS   #####
@@ -18,7 +19,7 @@ from country import get_countries, set_democracy_score
 # Think about how to present the data ? Different maps
 # Drop list / panel with details on each countries ?
 
-def update_screen(window, sidebar, countries, window_size, mouse_pos):
+def update_screen(window, sidebar, pp_card, countries, window_size, mouse_pos):
 	sidebar.width = window_size[0]*0.2
 	sidebar.height = window_size[1]
 
@@ -28,8 +29,10 @@ def update_screen(window, sidebar, countries, window_size, mouse_pos):
 	for country in countries:
 		if country.disp_name:
 			country.draw_name(window)
-	
+
+	pp_card.draw(window)
 	sidebar.draw(window)
+	print('coucou')
 	# sidebar.draw_topics(window)
 
 	pygame.display.update()
@@ -41,6 +44,7 @@ def main():
 	running = True
 
 
+
 	info = pygame.display.Info()
 	window_size = (info.current_w, info.current_h)
 	old_window_size = (0, 0)
@@ -48,13 +52,17 @@ def main():
 	window = pygame.display.set_mode(window_size, RESIZABLE)
 
 
+
 	countries = get_countries()
 	set_democracy_score(countries)
+
 
 	bg_color = (6,66,115)
 
 	sidebar = Sidebar(0.2*window_size[0], window_size[1], (0, 0))
 	sidebar.init_objects()
+	
+	pp_card = Pop_card((500, 100), window_size, 'France', "1.5")
 
 	while running:
 		mouse_pos = pygame.mouse.get_pos()
@@ -64,6 +72,8 @@ def main():
 		
 
 		sidebar.check_hover_clickables(mouse_pos)
+		pp_card.check_hover_links(mouse_pos)
+		
 		
 		
 		# Handle events
@@ -75,7 +85,9 @@ def main():
 					running = False
 			if event.type == pygame.MOUSEBUTTONDOWN:
 				sidebar.check_clicked_clickables()
-				
+				pp_card.check_clicked_links()
+		
+		
 
 		if window_size != old_window_size:
 			need_new_window = False
@@ -106,14 +118,15 @@ def main():
 				need_screen_update = True
 
 
-		if sidebar.change_state:
+		if sidebar.change_state or pp_card.change_state:
 			need_screen_update = True
 			sidebar.change_state = False
+			pp_card.change_state = False
 
 		#####   DISPLAY   ####
 		if need_screen_update:
 			window.fill(bg_color)
-			update_screen(window, sidebar, countries, window_size, mouse_pos)
+			update_screen(window, sidebar, pp_card, countries, window_size, mouse_pos)
 			need_screen_update = False
 
 		sidebar.reset_clickables()

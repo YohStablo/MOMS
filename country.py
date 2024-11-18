@@ -125,9 +125,10 @@ def set_democracy_score(countries):
 	with open("democracy_score.txt", "r") as f:
 		for line in f:
 			l = line.strip().split(',')
-			print(l[0])
 			countries[int(l[0])].democracy_score = "DS : " + l[2] + "/10"
-def update_state(directory:str, countries:list):
+			countries[int(l[0])].default_color = (255 - 25.5*float(l[2]), int(25.5*float(l[2])), 0)
+
+def init_states(directory:str, countries:list):
 	for filename in listdir(directory):
 		path = directory + filename
 		with open(path, 'r') as f:
