@@ -1,11 +1,10 @@
 import os
 import pygame
-import webbrowser
 from pygame.locals import *
+import util
 
 from sidebar import Sidebar
 from country import get_countries, set_democracy_score, init_states
-from pop_card import Pop_card
 
 
 #####   IDEAS   #####
@@ -18,22 +17,36 @@ from pop_card import Pop_card
 # News by countries ?
 # Think about how to present the data ? Different maps
 # Drop list / panel with details on each countries ?
+def draw_ds_text(window, window_size):
+	text_pos = (0.21 * window_size[0], window_size[1] - 10 - 50 * window_size[1]/945)
+	pygame.draw.rect(window, (0, 0, 0), (text_pos[0], text_pos[1], window_size[0] * 0.7, 50 * window_size[1]/945), 0, 3)
+	text_font = pygame.font.Font('freesansbold.ttf', int(14*min(1, 0.3 + window_size[1]/945)))
+
+	democracy_score_text = "DS : Democracy Score. Published by the Economist Group, it is an index measuring the quality of democracy across the world."
+	util.render_text_centered(democracy_score_text, text_font, (255, 255, 255), ((2 * text_pos[0] + window_size[0] * 0.7) / 2, text_pos[1] + 25 * window_size[1]/945), window, window_size[0] * 0.7)
 
 def update_screen(window, sidebar, countries, window_size, mouse_pos):
 	sidebar.width = window_size[0]*0.2
 	sidebar.height = window_size[1]
 
+
 	for country in countries:
 		country.draw_country(window)
 		country.draw_border(window)
+
+	draw_ds_text(window, window_size)
+	
 	for country in countries:
 		if country.disp_name:
 			country.draw_name(window)
-		if country.draw_card:
-			# country.update_card(window_size, sidebar.active_button_id + 1)
-			country.pp_card.draw(window)
+		if country.pp_card.is_active:
+			if country.draw_card:
+				# country.update_card(window_size, sidebar.active_button_id + 1)
+				country.pp_card.draw(window)
 
 	sidebar.draw(window)
+
+
 	# sidebar.draw_topics(window)
 
 	pygame.display.update()
@@ -112,7 +125,8 @@ def main():
 			sidebar.update_size(window_size)
 			for country in countries:
 				country.scale_country(map_size, map_offset)
-				country.pp_card.scale_card(window_size)
+				if country.pp_card.is_active:
+					country.pp_card.scale_card(window_size)
 				
 		old_window_size = window_size
 		

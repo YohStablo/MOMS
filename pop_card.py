@@ -4,10 +4,10 @@ import util
 import pygame
 
 class Pop_card:
-	def __init__(self, top_left_pos, window_size, country_name, dem_score):
+	def __init__(self, window_size, country_name, dem_score):
 		self.width = window_size[0] * 0.2
 		self.height = window_size[1] * 0.5
-		self.top_left_pos = top_left_pos
+		self.top_left_pos = window_size[0] *0.21, self.height * 0.99
 		self.color = (0, 0, 0)
 
 		self.change_state = False
@@ -26,14 +26,17 @@ class Pop_card:
 		self.is_hover = False
 
 	def scale_card(self, window_size):
-
 		self.window_size = window_size
 
 		self.width = self.window_size[0] * 0.2
 		self.height = self.window_size[1] * 0.5
+		self.top_left_pos = window_size[0] *0.21, self.height * 0.99
 
 		text_font = pygame.font.SysFont('freesans', min(int(20 * self.height/(945*0.5)), int(20 * self.width/384)))
-		self.text_box = Text_box((self.top_left_pos[0] + self.width * 0.05, self.top_left_pos[1] + self.height * 0.25), self.width * 0.9, self.height * 0.6, ((50, 50, 50), (255, 255, 255)), self.description, text_font)
+		self.text_box.top_left_pos = (self.top_left_pos[0] + self.width * 0.05, self.top_left_pos[1] + self.height * 0.25)
+		self.text_box.width = self.width * 0.9
+		self.text_box.height = self.height * 0.6
+		self.text_box.text_font = text_font
 		self.text_box.is_active = True
 
 		for i, link in enumerate(self.links):
@@ -48,6 +51,8 @@ class Pop_card:
 
 		self.width = self.window_size[0] * 0.2
 		self.height = self.window_size[1] * 0.5
+		self.top_left_pos = self.window_size[0] *0.21, self.height * 0.99
+
 
 		text_font = pygame.font.SysFont('freesans', min(int(20 * self.height/(945*0.5)), int(20 * self.width/384)))
 		self.text_box = Text_box((self.top_left_pos[0] + self.width * 0.05, self.top_left_pos[1] + self.height * 0.25), self.width * 0.9, self.height * 0.6, ((50, 50, 50), (255, 255, 255)), descrition, text_font)

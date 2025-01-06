@@ -28,7 +28,7 @@ class Country:
 			}
 
 		self.democracy_score = "Not in EU"
-		self.pp_card = Pop_card((0, 0), (0, 0), self.name, 0)
+		self.pp_card = Pop_card((0, 0), self.name, 0)
 		self.pp_card.is_active = False
 
 		self.is_clicked = False
@@ -146,7 +146,6 @@ class Country:
 					n_links -= 1
 				
 		self.pp_card.window_size = window_size
-		self.pp_card.top_left_pos = (window_size[0] *0.21, self.pp_card.height * 0.99)
 		self.pp_card.init_description_and_links(text, links)
 		self.pp_card.democracy_score = self.democracy_score
 		self.pp_card.is_active = True
