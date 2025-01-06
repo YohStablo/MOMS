@@ -2,6 +2,7 @@ import pygame
 import json
 from os import listdir
 from util import point_in_polygon, transform_point
+from pop_card import Pop_card
 
 class Country:
 	def __init__(self, id:int, name:str, center_point:tuple, description:str, borders:list):
@@ -27,8 +28,13 @@ class Country:
 			}
 
 		self.democracy_score = "Not in EU"
+		self.pp_card = Pop_card((0, 0), (0, 0), self.name, 0)
+		self.pp_card.is_active = False
+
+		self.is_clicked = False
 
 		self.change_state = False
+
 		
 	def scale_country(self, map_size, map_offset):
 		self.disp_pos = transform_point(self.pos, map_size, map_offset)
@@ -66,19 +72,39 @@ class Country:
 	def point_in_country(self, pos):
 		self.color = self.default_color
 		self.disp_name = False
+		if not self.pp_card.keep_pp_card:
+			self.draw_card = False
 		old_is_hover = self.is_hover
+
 
 		for border in self.disp_country_borders:
 			self.is_hover = point_in_polygon(pos, border)
 			if self.is_hover:				
 				self.color = self.hover_color
 				self.disp_name = True
+				self.draw_card = True
 				break
 		
 		if self.is_hover != old_is_hover:
 			self.change_state = True
 
-	def set_card(self, pp_card, topic:int):
+	def check_clicked(self):
+	
+		if self.is_hover:
+			if not self.is_clicked:
+				self.change_state = True
+			self.pp_card.keep_pp_card = True
+			self.is_clicked = True
+		else:
+			if self.is_clicked:
+				self.change_state = True
+			if not self.pp_card.is_hover:
+				self.pp_card.keep_pp_card = False
+			self.is_clicked = False
+		
+	def update_card(self, window_size, topic:int):
+		self.pp_card.is_active = False
+
 		if topic < 1 or topic > 4:
 			return
 		
@@ -88,9 +114,19 @@ class Country:
 
 		path = self.states[KT]
 		get_text = False
+
 		n_links = 0
-		links = []
 		with open(path, 'r') as f:
+			file_topic = int(f.readline().strip().split('\t')[1])
+			if file_topic != topic:
+				return
+			
+			f.readline()
+			id_country = int(f.readline().strip().split('\t')[1])
+			if id_country != self.id:
+				return
+			
+			links = []
 			for line in f:
 
 				if line[0] == '#':
@@ -105,15 +141,18 @@ class Country:
 					text = line
 					get_text = False
 
-				elif (n_links != 0):
+				elif (n_links > 0):
 					links.append(line)
 					n_links -= 1
+				
+		self.pp_card.window_size = window_size
+		self.pp_card.top_left_pos = (window_size[0] *0.21, self.pp_card.height * 0.99)
+		self.pp_card.init_description_and_links(text, links)
+		self.pp_card.democracy_score = self.democracy_score
+		self.pp_card.is_active = True
+		if self.is_clicked:
+			self.pp_card.keep_pp_card = True
 
-		pp_card.country_name = self.name
-		pp_card.democracy_score = self.democracy_score
-		pp_card.top_left_pos = (self.pos[0] + 100, self.pos[1] - 100)
-		pp_card.init_description_and_links(text, links)
-		pp_card.is_active = True
 			
 
 

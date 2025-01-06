@@ -19,7 +19,7 @@ from pop_card import Pop_card
 # Think about how to present the data ? Different maps
 # Drop list / panel with details on each countries ?
 
-def update_screen(window, sidebar, pp_card, countries, window_size, mouse_pos):
+def update_screen(window, sidebar, countries, window_size, mouse_pos):
 	sidebar.width = window_size[0]*0.2
 	sidebar.height = window_size[1]
 
@@ -29,8 +29,10 @@ def update_screen(window, sidebar, pp_card, countries, window_size, mouse_pos):
 	for country in countries:
 		if country.disp_name:
 			country.draw_name(window)
+		if country.draw_card:
+			# country.update_card(window_size, sidebar.active_button_id + 1)
+			country.pp_card.draw(window)
 
-	pp_card.draw(window)
 	sidebar.draw(window)
 	# sidebar.draw_topics(window)
 
@@ -62,7 +64,6 @@ def main():
 	sidebar = Sidebar(0.2*window_size[0], window_size[1], (0, 0))
 	sidebar.init_objects()
 
-	pp_card = Pop_card((500, 100), window_size, 'France', "1.5")
 
 	while running:
 		mouse_pos = pygame.mouse.get_pos()
@@ -70,10 +71,11 @@ def main():
 		info = pygame.display.Info()
 		window_size = (info.current_w, info.current_h)
 		
-
 		sidebar.check_hover_clickables(mouse_pos)
-		pp_card.check_hover_links(mouse_pos)
-		
+		for country in countries:
+			if country.pp_card.is_active:
+				country.pp_card.check_is_hover(mouse_pos)
+				country.pp_card.check_hover_links(mouse_pos)
 		
 		
 		# Handle events
@@ -84,9 +86,12 @@ def main():
 				if event.key == K_ESCAPE:
 					running = False
 			if event.type == pygame.MOUSEBUTTONDOWN:
+				
 				sidebar.check_clicked_clickables()
-				pp_card.check_clicked_links()
-		
+				for country in countries:
+					country.check_clicked()
+					country.pp_card.check_clicked_links()
+				
 		
 
 		if window_size != old_window_size:
@@ -102,34 +107,39 @@ def main():
 
 			need_screen_update = True
 
-
 			map_size = (window_size[0]*0.8, window_size[1])
 			map_offset = (window_size[0]*0.2, 0)
 			sidebar.update_size(window_size)
 			for country in countries:
 				country.scale_country(map_size, map_offset)
+				country.pp_card.scale_card(window_size)
+				
 		old_window_size = window_size
 		
 		
-		for i, country in enumerate(countries):
+		for country in countries:
 			country.point_in_country(mouse_pos)
-			country.set_card(pp_card, sidebar.active_button_id + 1)
+			if country.pp_card.change_state:
+				country.pp_card.change_state = False
+				need_screen_update = True
+
 			if country.change_state:
 				country.change_state = False
 				need_screen_update = True
 
-		print(pp_card.change_state)
 
 
-		if sidebar.change_state or pp_card.change_state:
+		if sidebar.change_state:
+			for country in countries:
+				country.update_card(window_size, sidebar.active_button_id + 1)
+				country.pp_card.change_state = False
 			need_screen_update = True
 			sidebar.change_state = False
-			pp_card.change_state = False
 
 		#####   DISPLAY   ####
 		if need_screen_update:
 			window.fill(bg_color)
-			update_screen(window, sidebar, pp_card, countries, window_size, mouse_pos)
+			update_screen(window, sidebar, countries, window_size, mouse_pos)
 			need_screen_update = False
 
 		sidebar.reset_clickables()

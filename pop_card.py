@@ -1,5 +1,6 @@
 from text_box import Text_box
 from link import LinkURL
+import util
 import pygame
 
 class Pop_card:
@@ -20,46 +21,80 @@ class Pop_card:
 
 		self.text_box = None
 
+		self.keep_pp_card = False
 		self.is_active = False
+		self.is_hover = False
 
+	def scale_card(self, window_size):
+
+		self.window_size = window_size
+
+		self.width = self.window_size[0] * 0.2
+		self.height = self.window_size[1] * 0.5
+
+		text_font = pygame.font.SysFont('freesans', min(int(20 * self.height/(945*0.5)), int(20 * self.width/384)))
+		self.text_box = Text_box((self.top_left_pos[0] + self.width * 0.05, self.top_left_pos[1] + self.height * 0.25), self.width * 0.9, self.height * 0.6, ((50, 50, 50), (255, 255, 255)), self.description, text_font)
+		self.text_box.is_active = True
+
+		for i, link in enumerate(self.links):
+			link.is_active = True
+			if i < 3:
+				link.top_left_pos = (self.top_left_pos[0] + (0.1 + 0.3*i)*self.width, self.top_left_pos[1] + 0.8 * self.height)
+			elif i < 6:
+				link.top_left_pos = (self.top_left_pos[0] + (0.1 + 0.3*(i-2))*self.width, self.top_left_pos[1] + 0.9 * self.height)
 
 	def init_description_and_links(self, descrition:str, links:list):
-		text_font = pygame.font.SysFont('freesans', min(int(20 * self.height/945), int(20 * self.width/384)))
-		self.text_box = Text_box((self.top_left_pos[0] + self.width * 0.05, self.top_left_pos[1] + self.height * 0.3), self.width * 0.9, self.height * 0.6, ((100, 100, 100), (255, 255, 255)), descrition, text_font)
+		self.links = []
+
+		self.width = self.window_size[0] * 0.2
+		self.height = self.window_size[1] * 0.5
+
+		text_font = pygame.font.SysFont('freesans', min(int(20 * self.height/(945*0.5)), int(20 * self.width/384)))
+		self.text_box = Text_box((self.top_left_pos[0] + self.width * 0.05, self.top_left_pos[1] + self.height * 0.25), self.width * 0.9, self.height * 0.6, ((50, 50, 50), (255, 255, 255)), descrition, text_font)
 		self.text_box.is_active = True
 
 		for i, link in enumerate(links):
-			link = LinkURL((0, 0), link, f"Link {i}", (20, 0, 100))
+			link = LinkURL((0, 0), link, f"Link {i+1}", (100, 100, 255))
 			link.is_active = True
 			if i < 3:
-				link.top_left_pos = (self.top_left_pos[0] + (0.1 + 0.4*i)*self.width, self.top_left_pos[1] + 0.8 * self.height)
+				link.top_left_pos = (self.top_left_pos[0] + (0.1 + 0.3*i)*self.width, self.top_left_pos[1] + 0.8 * self.height)
 			elif i < 6:
-				link.top_left_pos = (self.top_left_pos[0] + (0.1 + 0.4*(i-2))*self.width, self.top_left_pos[1] + 0.9 * self.height)
+				link.top_left_pos = (self.top_left_pos[0] + (0.1 + 0.3*(i-2))*self.width, self.top_left_pos[1] + 0.9 * self.height)
 			self.links.append(link)
+		# print(self.links)
 
 	def check_hover_links(self, mouse_pos):
 		for link in self.links:
 			link.check_is_hover(mouse_pos)
 			if link.change_state:
-				link.change_state = False
 				self.change_state = True
+				link.change_state = False
 				
+
 	def check_clicked_links(self):
 		for link in self.links:
 			link.check_clicked()
 			if link.change_state:
-				link.change_state = False
 				self.change_state = True
+				link.change_state = False
 				
 	
+	def check_is_hover(self, mouse_pos):
+		if self.is_active:
+			p1 = self.top_left_pos
+			p2 = (self.top_left_pos[0] + self.width, self.top_left_pos[1] + self.height)
+
+			if util.point_in_box(mouse_pos, p1, p2):
+				self.is_hover = True
+				return
+
+			self.is_hover = False
+
 	def draw(self, window):
 		if not self.is_active:
 			return
 
-		self.width = self.window_size[0] * 0.2
-		self.height = self.window_size[1] * 0.5
-
-		# self.draw_backgroung(window)
+		self.draw_backgroung(window)
 		self.draw_country_ds(window)
 		self.text_box.draw(window)
 
@@ -69,11 +104,11 @@ class Pop_card:
 
 
 	def draw_country_ds(self, window):
-		font = pygame.font.Font('freesansbold.ttf', 14)
+		font = pygame.font.Font('freesansbold.ttf', 16)
 
-		country_name_text = font.render(f"{self.country_name}", True, (200, 100, 100))
-		democracy_score_text = font.render(f"{self.democracy_score}", True, (200, 100, 100))
-		description_text = font.render("Description", True, (200, 100, 100))
+		country_name_text = font.render(f"{self.country_name}", True, (200, 200, 200))
+		democracy_score_text = font.render(f"{self.democracy_score}", True, (200, 200, 200))
+		description_text = font.render("Description", True, (200, 200, 200))
 		
 		country_name_text_rect = country_name_text.get_rect()
 		democracy_score_text_rect = democracy_score_text.get_rect()
@@ -89,4 +124,4 @@ class Pop_card:
 
 	def draw_backgroung(self, window):
 		rect = (self.top_left_pos[0], self.top_left_pos[1], self.width, self.height)
-		pygame.draw.rect(window, (0, 0, 0), rect, 0, 2)
+		pygame.draw.rect(window, (50, 50, 50), rect, 0, 2)

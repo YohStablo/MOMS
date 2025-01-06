@@ -32,6 +32,7 @@ class LinkURL:
         else:
             color = self.text_color
 
+
         font_surface = self.font.render(self.text, True, color)
         self.rect = window.blit(font_surface, self.top_left_pos)
 
@@ -56,6 +57,6 @@ class LinkURL:
         
         if self.is_hover:
             self.was_clicked = True
-            webbrowser.open(self.link, 2)
             self.change_state = True
+            webbrowser.open(self.link, 2)
     
