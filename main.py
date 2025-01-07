@@ -17,6 +17,7 @@ from country import get_countries, set_democracy_score, init_states
 # News by countries ?
 # Think about how to present the data ? Different maps
 # Drop list / panel with details on each countries ?
+
 def draw_ds_text(window, window_size):
 	text_pos = (0.21 * window_size[0], window_size[1] - 10 - 50 * window_size[1]/945)
 	pygame.draw.rect(window, (0, 0, 0), (text_pos[0], text_pos[1], window_size[0] * 0.7, 50 * window_size[1]/945), 0, 3)

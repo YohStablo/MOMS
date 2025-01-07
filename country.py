@@ -57,9 +57,9 @@ class Country:
 				pygame.draw.line(window, self.border_color, border[i], border[(i+1)%len(border)], 1)
 	
 	def draw_name(self, window):
-		font = pygame.font.Font('freesansbold.ttf', 14)
-		text = font.render(f"{self.name}", True, (200, 100, 100))
-		text2 = font.render(f"{self.democracy_score}", True, (200, 100, 100))
+		font = pygame.font.Font('freesansbold.ttf', 18)
+		text = font.render(f"{self.name}", True, (0, 0, 0))
+		text2 = font.render(f"{self.democracy_score}", True, (0, 0, 0))
 		
 		textRect = text.get_rect()
 		textRect.center = self.disp_pos
@@ -104,6 +104,11 @@ class Country:
 		
 	def update_card(self, window_size, topic:int):
 		self.pp_card.is_active = False
+
+		if topic == 5:
+			self.pegasus_color = True
+		else:
+			self.pegasus_color = False
 
 		if topic < 1 or topic > 4:
 			return
