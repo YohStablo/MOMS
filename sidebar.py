@@ -33,19 +33,31 @@ class Sidebar:
 			"Network and net surveillance" : [
 				LinkURL((0, 0), r"https://www.accessnow.org/press-release/ai-act-predictive-policing/", "Link 1", link_color),
 				LinkURL((0, 0), r"https://www.mdpi.com/2076-0760/10/6/234", "Link 2", link_color),
+				LinkURL((0, 0), r"https://datajusticeproject.net/wp-content/uploads/2019/05/Report-Data-Driven-Policing-EU.pdf", "Link 3", link_color),
+				LinkURL((0, 0), r"https://www.accessnow.org/press-release/ai-act-predictive-policing/", "Link 4", link_color),
+				LinkURL((0, 0), r"https://www.mdpi.com/2076-0760/10/6/234", "Link 5", link_color),
 			],
 			"Intelligent video surveillance" : [
 				LinkURL((0, 0), r"https://www.biometricupdate.com/202405/police-in-germany-using-live-facial-recognition", "Link 1", link_color),
-				LinkURL((0, 0), r"https://ainowinstitute.org/wp-content/uploads/2023/09/regulatingbiometrics-fussey-murray.pdf", "Link 2", link_color)
+				LinkURL((0, 0), r"https://ainowinstitute.org/wp-content/uploads/2023/09/regulatingbiometrics-fussey-murray.pdf", "Link 2", link_color),
+				LinkURL((0, 0), r"https://datajusticeproject.net/wp-content/uploads/2019/05/Report-Data-Driven-Policing-EU.pdf", "Link 3", link_color),
+				LinkURL((0, 0), r"https://www.accessnow.org/press-release/ai-act-predictive-policing/", "Link 4", link_color),
+				LinkURL((0, 0), r"https://www.mdpi.com/2076-0760/10/6/234", "Link 5", link_color),
 			],
 			"Electronic communications surveillance" : [
 				LinkURL((0, 0), r"https://www.lemonde.fr/en/france/article/2023/07/06/france-set-to-allow-police-to-spy-through-phones_6044269_7.html", "Link 1", link_color),
-				LinkURL((0, 0), r"https://edri.org/our-work/the-terrifying-expansion-of-swedens-state-surveillance/", "Link 2", link_color)
+				LinkURL((0, 0), r"https://edri.org/our-work/the-terrifying-expansion-of-swedens-state-surveillance/", "Link 2", link_color),
+				LinkURL((0, 0), r"https://datajusticeproject.net/wp-content/uploads/2019/05/Report-Data-Driven-Policing-EU.pdf", "Link 3", link_color),
+				LinkURL((0, 0), r"https://www.accessnow.org/press-release/ai-act-predictive-policing/", "Link 4", link_color),
+				LinkURL((0, 0), r"https://www.mdpi.com/2076-0760/10/6/234", "Link 5", link_color),
 			],
 			"Pegasus" : [
 				LinkURL((0, 0), r"https://rm.coe.int/pegasus-and-similar-spyware-and-secret-state-surveillance/1680ac7f68", "Link 1", link_color),
 				LinkURL((0, 0), r"https://www.europarl.europa.eu/RegData/etudes/ATAG/2023/747923/EPRS_ATA(2023)747923_EN.pdf", "Link 2", link_color),
-				LinkURL((0, 0), r"https://www.coe.int/en/web/data-protection/-/pegasus-spyware-called-into-question-by-pace", "Link 3", link_color)
+				LinkURL((0, 0), r"https://www.coe.int/en/web/data-protection/-/pegasus-spyware-called-into-question-by-pace", "Link 3", link_color),
+				LinkURL((0, 0), r"https://datajusticeproject.net/wp-content/uploads/2019/05/Report-Data-Driven-Policing-EU.pdf", "Link 4", link_color),
+				LinkURL((0, 0), r"https://www.accessnow.org/press-release/ai-act-predictive-policing/", "Link 5", link_color),
+			LinkURL((0, 0), r"https://www.mdpi.com/2076-0760/10/6/234", "Link 6", link_color),
 		    ]
 			}
 		
