@@ -4,7 +4,7 @@ from pygame.locals import *
 import util
 
 from sidebar import Sidebar
-from country import get_countries, set_democracy_score, init_states
+from country import get_countries, set_democracy_score, init_states, set_pegasus_color
 
 
 #####   IDEAS   #####
@@ -71,6 +71,7 @@ def main():
 	countries = get_countries()
 	set_democracy_score(countries)
 	init_states(countries)
+	set_pegasus_color(countries)
 
 
 	bg_color = (6,66,115)
@@ -133,6 +134,8 @@ def main():
 		
 		
 		for country in countries:
+			if sidebar.active_button_id + 1 == 5:
+				country.in_pegasus_mode = True
 			country.point_in_country(mouse_pos)
 			if country.pp_card.change_state:
 				country.pp_card.change_state = False

@@ -20,6 +20,8 @@ class Country:
 		self.default_color = (0, 170, 0)
 		self.border_color = (0, 0, 0)
 		self.example_color = (255, 105, 97)
+		self.pegasus_color = (50, 50, 50)
+		self.in_pegasus_mode = False
 		self.states = {
 			'1': None,
 			'2': None,
@@ -87,6 +89,9 @@ class Country:
 		
 		if self.is_hover != old_is_hover:
 			self.change_state = True
+		
+		if self.in_pegasus_mode:
+			self.color = self.pegasus_color
 
 	def check_clicked(self):
 	
@@ -104,11 +109,6 @@ class Country:
 		
 	def update_card(self, window_size, topic:int):
 		self.pp_card.is_active = False
-
-		if topic == 5:
-			self.pegasus_color = True
-		else:
-			self.pegasus_color = False
 
 		if topic < 1 or topic > 4:
 			return
@@ -203,6 +203,30 @@ def get_countries():
 
 		country_id += 1
 	return countries
+
+
+def set_pegasus_color(countries):
+	with open("pegasus_use.txt", 'r') as f:
+		f.readline()
+		for line in f:
+			l = line.strip().split('\t')
+			country_id = int(l[1])
+			pegas_id = int(l[2])
+
+			match pegas_id:
+				case -1:
+					countries[country_id].pegasus_color = (100, 100, 100)
+				case 0:
+					countries[country_id].pegasus_color = (255, 165, 10)
+				case 1:
+					countries[country_id].pegasus_color = (255, 100, 10)
+				case 2:
+					countries[country_id].pegasus_color = (255, 20, 10)
+
+
+					
+
+
 
 
 def set_democracy_score(countries):
